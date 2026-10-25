@@ -18,6 +18,8 @@ Daily totals are the sum of cache read, cache write and output tokens, plus the 
 
 The host half lives in `lib/index.js`. On the first poll it opens each session log through the dsh `sessionQuery` service, folds the events once, and keeps the result in memory. Live sessions are read again only from the last event offset, so later polls touch just the new events, not the whole log. Old sessions are folded once and never touched again until they change.
 
+Each folded entry is saved to the plugin's own `cache` folder, one JSON file per session. On the next launch the host reads those files instead of the logs, so a restart does not replay the whole history. Only the sessions that saw new events are read again, from the last event offset that was saved.
+
 The fold counts an event as usage whenever `assistant/message` or `assistant/attempt` carries a usage object, and counts `step/end` and `turn/end` for step and turn numbers. Providers and models come from the event metadata, with unknown values collected under a fallback bucket.
 
 The computed account is served as JSON at `GET /ledger/stats`. The browser half in `lib/client.js` polls that route and renders the panel.
@@ -36,6 +38,10 @@ dsh loads third party plugins from the shared profiles directory. Put this packa
 ```
 
 3. Restart dsh and refresh the browser. The ledger panel appears as a floating card.
+
+## Cache
+
+The folded totals live in `cache/` next to the plugin package, one JSON file per session. If you delete that folder the plugin simply rebuilds everything from the logs on the next launch. To keep the cache somewhere else, set the `DSH_LEDGER_CACHE` environment variable to the folder you want before dsh starts.
 
 ## Configure pricing
 
@@ -60,6 +66,7 @@ The host and client are plain ES modules with no build step.
 ```bash
 node --check lib/index.js
 node --check lib/client.js
+node --check lib/store.js
 ```
 
 A small logic test that feeds fake session events through the fold path lives outside the package and was used during development. The client is served as a module table bundle and does not need compiling.
