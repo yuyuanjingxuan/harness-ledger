@@ -1,35 +1,41 @@
 # dsh-ledger
 
-A token usage and cost ledger for DeepSeek Harness. It watches your session logs, folds every usage sample into a compact account, and shows the result in a floating panel that you can drag around the browser window.
+**Know where your model tokens go.**
 
-## What it shows
+dsh-ledger turns usage already recorded by DeepSeek Harness into a clear, persistent view of your work. Compare providers and models, follow activity across the month, and trace account totals back to individual sessions and requests.
 
-The panel refreshes every 10 seconds and gives you:
+It runs inside Harness, makes no model calls, and keeps its aggregate cache on your machine.
 
-* Total input, output, cache read and cache write tokens
-* A breakdown by provider, and per model when you expand a provider
-* The whole current month as a calendar, with one cell per day
-* A list of sessions sorted by total usage, expandable down to individual requests
-* A placeholder for per provider pricing, so cost estimates can be added later
+## What you get
 
-Daily totals are the sum of cache read, cache write and output tokens, plus the uncached input. The layout follows the dsh light and dark theme automatically, and the panel language can be switched between Chinese and English from the header.
+1. **A complete token picture.** See input, output, cache reads and cache writes separately, with totals for the full account.
+2. **Provider and model attribution.** Review usage for every provider registered with Harness. Expand a provider to inspect token totals for its models.
+3. **A monthly activity calendar.** Spot busy days at a glance and open a day to inspect its sessions.
+4. **Session level detail.** Sessions are ranked by usage. Expand one to see its totals and recent requests, including time, provider, model and token counts.
+5. **A panel that fits your workflow.** Drag it where you want it, collapse it when you need room, and choose automatic, midnight, paper or Matrix colors. Switch between Chinese and English in the panel.
 
-## How it works
+The panel refreshes every ten seconds. It shows the thirty highest usage sessions. Session details include up to twelve recent requests.
 
-The host half lives in `lib/index.js`. On the first poll it opens each session log through the dsh `sessionQuery` service, folds the events once, and keeps the result in memory. Live sessions are read again only from the last event offset, so later polls touch just the new events, not the whole log. Old sessions are folded once and never touched again until they change.
+## Usage accounting
 
-Each folded entry is saved to the plugin's own `cache` folder, one JSON file per session. On the next launch the host reads those files instead of the logs, so a restart does not replay the whole history. Only the sessions that saw new events are read again, from the last event offset that was saved.
+The ledger reads usage metadata from `assistant/message` and `assistant/attempt` events. Provider and model attribution comes from the source metadata attached to each message. Any provider registered with Harness can appear in the provider list. Usage is attributed when its session event contains provider metadata and token counts.
 
-The fold counts an event as usage whenever `assistant/message` or `assistant/attempt` carries a usage object, and counts `step/end` and `turn/end` for step and turn numbers. Providers and models come from the event metadata, with unknown values collected under a fallback bucket.
+Input, output, cache read and cache write counts remain separate. Daily totals add uncached input, output, cache reads and cache writes. Step and turn counts come from their corresponding session events.
 
-The computed account is served as JSON at `GET /ledger/stats`. The browser half in `lib/client.js` polls that route and renders the panel.
+Estimated cost is optional. Configure a rate for a provider to display an estimate alongside its usage. Estimates use the `¥` symbol.
+
+## Local data and performance
+
+dsh-ledger reads session history through Harness services. It does not send prompts to another service or make requests to a model. Its cache stores session metadata and folded usage totals, not full message bodies.
+
+The cache lives in the plugin's `cache` directory, with one JSON file per session. After the initial scan, the ledger reuses saved totals and reads only new events from active sessions. A first run, a missing cache or a cache format change requires a full replay and can take longer. Normal restarts reuse the saved totals.
+
+Set `DSH_LEDGER_CACHE` before starting Harness to place the cache in a different directory.
 
 ## Install
 
-dsh loads third party plugins from the shared profiles directory. Put this package there and register it in the profile patch file.
-
-1. Copy the package so that `package.json` and `lib` end up at `$DSH_HOME/profiles/node_modules/dsh-ledger`.
-2. In `$DSH_HOME/profiles/<profile>/cordis.patch.yml`, add these lines under the existing insert list:
+1. Place the package at `$DSH_HOME/profiles/node_modules/dsh-ledger`. The directory should contain `package.json` and `lib`.
+2. Open `$DSH_HOME/profiles/<profile>/cordis.patch.yml` and add the following entry to its existing insert list:
 
 ```yaml
 - insert:
@@ -37,15 +43,11 @@ dsh loads third party plugins from the shared profiles directory. Put this packa
       name: dsh-ledger
 ```
 
-3. Restart dsh and refresh the browser. The ledger panel appears as a floating card.
-
-## Cache
-
-The folded totals live in `cache/` next to the plugin package, one JSON file per session. If you delete that folder the plugin simply rebuilds everything from the logs on the next launch. To keep the cache somewhere else, set the `DSH_LEDGER_CACHE` environment variable to the folder you want before dsh starts.
+3. Restart Harness and refresh the browser. The ledger appears as a floating panel.
 
 ## Configure pricing
 
-Cost estimation is wired in but turned off. You define per provider rates in the plugin config under the `dsh-ledger` settings section. The shape is:
+Add rates under the `dsh-ledger` configuration in your profile patch. The provider key must match the provider ID reported by Harness.
 
 ```yaml
 - id: dsh-ledger
@@ -57,11 +59,11 @@ Cost estimation is wired in but turned off. You define per provider rates in the
         outputPerM: 6.0
 ```
 
-`inputPerM` and `outputPerM` are the price per million tokens. When set, the panel shows an estimated amount for that provider. Without a config the estimate stays hidden.
+`inputPerM` and `outputPerM` are prices per million uncached input tokens and output tokens. Estimates stay hidden until rates are configured.
 
 ## Development
 
-The host and client are plain ES modules with no build step.
+The host and browser clients are ES modules and need no build step. Check them with:
 
 ```bash
 node --check lib/index.js
@@ -69,8 +71,6 @@ node --check lib/client.js
 node --check lib/store.js
 ```
 
-A small logic test that feeds fake session events through the fold path lives outside the package and was used during development. The client is served as a module table bundle and does not need compiling.
-
 ## License
 
-MIT, see [LICENSE](LICENSE).
+MIT License.
