@@ -1,0 +1,6 @@
+# These rows are inserted as the harness-ledger bundle layer. The profile
+# patch file may further adjust them, but the plugin itself brings its own
+# bundle so the plugin manager recognises it as a switchable plugin.
+- insert:
+    - id: ledger
+      name: harness-ledger
