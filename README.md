@@ -4,8 +4,6 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="DSH" src="https://img.shields.io/badge/DeepSeek%20Harness-ready-1f6feb">
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-4caf50">
-  <img alt="Platform" src="https://img.shields.io/badge/web-browser-9c27b0">
-  <a href="https://github.com/yuyuanjingxuan/harness-ledger"><img alt="Stars" src="https://img.shields.io/github/stars/yuyuanjingxuan/harness-ledger"></a>
 </p>
 
 A token usage and cost ledger for DeepSeek Harness. It reads usage already recorded in Harness sessions and shows totals, per provider and per model breakdowns, a monthly heatmap, and per session and per request records in a draggable browser panel. It makes no model calls and keeps its cache in the dsh user data area.
@@ -74,7 +72,3 @@ node --check lib/index.js
 node --check lib/client.js
 node --check lib/store.js
 ```
-
-## License
-
-MIT
