@@ -10,7 +10,7 @@ It runs inside Harness, makes no model calls, and keeps its aggregate cache on y
 
 1. **A complete token picture.** See input, output, cache reads and cache writes separately, with totals for the full account.
 2. **Two ways to group usage.** Switch the ledger between **Providers** (API route and credential) and **Models** (the model that consumed the tokens). Expand a row to view the corresponding model or provider breakdown. In the model view, matching model names from different providers are combined and their individual providers remain visible when expanded.
-3. **A monthly activity calendar.** Spot busy days at a glance and open a day to inspect its sessions.
+3. **A monthly activity calendar.** Spot busy days at a glance and open a day to inspect the sessions that actually consumed tokens that day, including sessions created earlier.
 4. **Session level detail.** Sessions are ranked by usage. Expand one to see its totals and recent requests, including time, provider, model and token counts.
 5. **A panel that fits your workflow.** Drag it where you want it, collapse it when you need room, and choose automatic, midnight, paper or Matrix colors. Switch between Chinese and English in the panel. The selected usage grouping is remembered locally.
 
@@ -20,7 +20,7 @@ The panel refreshes every ten seconds. It shows the thirty highest usage session
 
 The ledger reads usage metadata from `assistant/message` and `assistant/attempt` events. Provider and model attribution comes from the source metadata attached to each message. Any provider registered with Harness can appear in the provider list. Usage is attributed when its session event contains provider metadata and token counts.
 
-Input, output, cache read and cache write counts remain separate. Daily totals add uncached input, output, cache reads and cache writes. Step and turn counts come from their corresponding session events.
+Input, output, cache read and cache write counts remain separate. Daily totals and daily session lists use the timestamp of each usage event, so usage in an older conversation is attributed to the day it occurred. Step and turn counts come from their corresponding session events.
 
 Estimated cost is optional. Configure a rate for a provider to display an estimate alongside its usage. Estimates use the `¥` symbol.
 
