@@ -1,6 +1,6 @@
 # harness-ledger
 
-<p align="center">
+<p align="left">
   <a href="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml"><img alt="CI" src="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
   <a href="https://www.deepseek.com/harness/"><img alt="DSH" src="https://img.shields.io/badge/DeepSeek%20Harness-ready-1f6feb"></a>
