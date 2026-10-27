@@ -1,9 +1,9 @@
 # harness-ledger
 
 <p align="center">
-  <a href="https://github.com/yuyuanjingxuan/harness-ledger/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/yuyuanjingxuan/harness-ledger/check.yml"></a>
+  <a href="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml"><img alt="CI" src="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
-  <a href="https://github.com/yuyuanjingxuan/harness-ledger"><img alt="DSH" src="https://img.shields.io/badge/DeepSeek%20Harness-ready-1f6feb"></a>
+  <a href="https://www.deepseek.com/harness/"><img alt="DSH" src="https://img.shields.io/badge/DeepSeek%20Harness-ready-1f6feb"></a>
   <a href="https://www.npmjs.com/package/harness-ledger"><img alt="Version" src="https://img.shields.io/badge/version-0.1.0-4caf50"></a>
   <a href="https://www.npmjs.com/package/harness-ledger"><img alt="Downloads" src="https://img.shields.io/npm/dw/harness-ledger"></a>
 </p>
