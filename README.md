@@ -10,13 +10,34 @@
 
 A token usage and cost ledger for DeepSeek Harness. It reads usage already recorded in Harness sessions and shows totals, per provider and per model breakdowns, a monthly heatmap, and per session and per request records in a draggable browser panel. It makes no model calls and keeps its cache in the dsh user data area.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center"><img src="assets/Default_CN.png" width="280" alt="Full panel in the default theme with the Chinese interface"></td>
+    <td align="center"><img src="assets/Matrix_EN.png" width="280" alt="The same panel in the Matrix theme with the English interface"></td>
+  </tr>
+  <tr>
+    <td align="center">Default theme, Chinese interface</td>
+    <td align="center">Matrix theme, English interface</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/Paper_Price.png" width="280" alt="The per model pricing editor in the Paper theme"></td>
+    <td align="center"><img src="assets/Midnight_Simple.png" width="280" alt="The compact view and the collapsed pill in the Midnight theme"></td>
+  </tr>
+  <tr>
+    <td align="center">Per model pricing editor, Paper theme</td>
+    <td align="center">Compact view and collapsed pill, Midnight theme</td>
+  </tr>
+</table>
+
 ## Features
 
 - Account totals for input, output, cache read, cache write, reasoning, and total tokens.
 - Usage grouped by provider or model. The model view combines the same model name across providers and shows the provider breakdown when expanded.
 - A monthly activity calendar. Selecting a day shows sessions with token usage recorded on that day, including older sessions.
 - Session totals and recent request records with time, provider, model, and token counts.
-- Per-provider price estimates with zero defaults for every discovered provider, priced per million tokens.
+- Per provider or per model price estimates with zero defaults for every discovered provider and model, priced per million tokens.
 - Auto, Midnight, Paper, and Matrix panel themes.
 - Chinese and English panel text.
 
