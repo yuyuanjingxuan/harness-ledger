@@ -1,5 +1,7 @@
 <h1><img src="assets/logo.png" width="52" alt="harness-ledger logo"> harness-ledger</h1>
 
+<p align="left">English | <a href="README.zh-CN.md">中文</a></p>
+
 <p align="left">
   <a href="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml"><img alt="CI" src="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
