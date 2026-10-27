@@ -44,7 +44,7 @@ Restart Harness and refresh the browser.
 
 Every provider discovered by Harness starts at ¥0 per million tokens, so the panel works without a pricing block. Click the `¥` button in the panel header to enter input and output prices. Choose either **By provider** or **By model**; only the selected mode is used for estimates. Model rates are keyed by both provider and model, so identical model names from different providers remain distinct. Both rate tables persist in the browser's local storage. In provider mode, local provider rates take precedence over profile-configured rates.
 
-Choose Compact, Standard, or Wide from the panel header to resize it, or drag the lower-right corner for a custom size. The selected size is saved in the browser.
+Choose Compact (600×760), Standard (800×900), or Wide (1000×1000) from the panel header to resize it, or drag the lower-right corner for a custom size. Standard is the default. The selected size is saved in the browser.
 
 The provider key must match the ID reported by Harness. Profile configuration remains available when rates should be shared across browsers or managed centrally:
 
