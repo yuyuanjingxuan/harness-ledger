@@ -9,10 +9,10 @@ It runs inside Harness, makes no model calls, and keeps its aggregate cache on y
 ## What you get
 
 1. **A complete token picture.** See input, output, cache reads and cache writes separately, with totals for the full account.
-2. **Provider and model attribution.** Review usage for every provider registered with Harness. Expand a provider to inspect token totals for its models.
+2. **Two ways to group usage.** Switch the ledger between **Providers** (API route and credential) and **Models** (the model that consumed the tokens). Expand a row to view the corresponding model or provider breakdown. In the model view, matching model names from different providers are combined and their individual providers remain visible when expanded.
 3. **A monthly activity calendar.** Spot busy days at a glance and open a day to inspect its sessions.
 4. **Session level detail.** Sessions are ranked by usage. Expand one to see its totals and recent requests, including time, provider, model and token counts.
-5. **A panel that fits your workflow.** Drag it where you want it, collapse it when you need room, and choose automatic, midnight, paper or Matrix colors. Switch between Chinese and English in the panel.
+5. **A panel that fits your workflow.** Drag it where you want it, collapse it when you need room, and choose automatic, midnight, paper or Matrix colors. Switch between Chinese and English in the panel. The selected usage grouping is remembered locally.
 
 The panel refreshes every ten seconds. It shows the thirty highest usage sessions. Session details include up to twelve recent requests.
 
@@ -28,7 +28,7 @@ Estimated cost is optional. Configure a rate for a provider to display an estima
 
 dsh-ledger reads session history through Harness services. It does not send prompts to another service or make requests to a model. Its cache stores session metadata and folded usage totals, not full message bodies.
 
-The cache lives in the plugin's `cache` directory, with one JSON file per session. After the initial scan, the ledger reuses saved totals and reads only new events from active sessions. A first run, a missing cache or a cache format change requires a full replay and can take longer. Normal restarts reuse the saved totals.
+The cache lives in the plugin's `cache` directory, with one JSON file per session. After the initial scan, the ledger reuses saved totals and reads only new events from active sessions. Cached totals are shown immediately while a background refresh reads history. A first run, a missing cache or a cache format change requires a full replay and can take longer. Normal restarts reuse the saved totals.
 
 Set `DSH_LEDGER_CACHE` before starting Harness to place the cache in a different directory.
 
