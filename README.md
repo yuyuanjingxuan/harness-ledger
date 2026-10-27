@@ -32,10 +32,17 @@ The cache lives in the plugin's `cache` directory, with one JSON file per sessio
 
 Set `DSH_LEDGER_CACHE` before starting Harness to place the cache in a different directory.
 
-## Install
+## Install / 安装
 
-1. Place the package at `$DSH_HOME/profiles/node_modules/dsh-ledger`. The directory should contain `package.json` and `lib`.
-2. Open `$DSH_HOME/profiles/<profile>/cordis.patch.yml` and add the following entry to its existing insert list:
+The package is installed directly from this GitHub repository. It is not currently published to npm because the unscoped `dsh-ledger` npm name belongs to another project.
+
+在 PowerShell 中运行以下命令即可安装到 Harness 的 profile 依赖目录：
+
+```powershell
+npm install --prefix "$env:DSH_HOME\profiles" github:yuyuanjingxuan/dsh-ledger
+```
+
+Then open `$DSH_HOME/profiles/<profile>/cordis.patch.yml` and add the following entry to its existing insert list:
 
 ```yaml
 - insert:
@@ -43,7 +50,23 @@ Set `DSH_LEDGER_CACHE` before starting Harness to place the cache in a different
       name: dsh-ledger
 ```
 
-3. Restart Harness and refresh the browser. The ledger appears as a floating panel.
+Restart Harness and refresh the browser. The ledger appears as a floating panel.
+
+To update later, run the same command again with `@main`:
+
+```powershell
+npm install --prefix "$env:DSH_HOME\profiles" github:yuyuanjingxuan/dsh-ledger#main
+```
+
+If `$env:DSH_HOME` is not set, use the full Harness directory instead. For example, a default Windows setup can use:
+
+```powershell
+npm install --prefix "$env:USERPROFILE\.dsh\profiles" github:yuyuanjingxuan/dsh-ledger
+```
+
+## Availability / 发布渠道
+
+This is a DeepSeek Harness plugin, not a VS Code extension, so it will not appear in the VS Code Marketplace. It is currently distributed through GitHub and can be installed with the command above. A future npm release would enable `npm install dsh-ledger`, but that requires a scoped package name such as `@yuyuanjingxuan/dsh-ledger` because the current npm name is already taken.
 
 ## Configure pricing
 
