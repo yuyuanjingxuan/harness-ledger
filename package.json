@@ -1,5 +1,5 @@
 {
-  "name": "dsh-ledger",
+  "name": "harness-ledger",
   "version": "0.1.0",
   "description": "Token usage and cost ledger for DeepSeek Harness. Tracks totals, per provider and per model usage, a current month heatmap, and per session and per request records.",
   "type": "module",
