@@ -1,4 +1,4 @@
-# harness-ledger
+<h1><img src="assets/logo.png" width="52" alt="harness-ledger logo"> harness-ledger</h1>
 
 <p align="left">
   <a href="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml"><img alt="CI" src="https://github.com/yuyuanjingxuan/harness-ledger/actions/workflows/check.yml/badge.svg"></a>
