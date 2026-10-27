@@ -1,16 +1,22 @@
 # harness-ledger
 
-Token-usage ledger for DeepSeek Harness.
+<p align="center">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
+  <img alt="DSH" src="https://img.shields.io/badge/DeepSeek%20Harness-ready-1f6feb">
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-4caf50">
+  <img alt="Platform" src="https://img.shields.io/badge/web-browser-9c27b0">
+  <a href="https://github.com/yuyuanjingxuan/harness-ledger"><img alt="Stars" src="https://img.shields.io/github/stars/yuyuanjingxuan/harness-ledger"></a>
+</p>
 
-`harness-ledger` reads usage already recorded in Harness sessions and displays it in a draggable browser panel. It makes no model calls and keeps its cache locally.
+A token usage and cost ledger for DeepSeek Harness. It reads usage already recorded in Harness sessions and shows totals, per provider and per model breakdowns, a monthly heatmap, and per session and per request records in a draggable browser panel. It makes no model calls and keeps its cache in the dsh user data area.
 
 ## Features
 
-- Account totals for input, output, cache read, cache write, and total tokens.
+- Account totals for input, output, cache read, cache write, reasoning, and total tokens.
 - Usage grouped by provider or model. The model view combines the same model name across providers and shows the provider breakdown when expanded.
 - A monthly activity calendar. Selecting a day shows sessions with token usage recorded on that day, including older sessions.
 - Session totals and recent request records with time, provider, model, and token counts.
-- Per-provider price estimates with ¥0/M defaults for every discovered provider.
+- Per-provider price estimates with zero defaults for every discovered provider, priced per million tokens.
 - Auto, Midnight, Paper, and Matrix panel themes.
 - Chinese and English panel text.
 
@@ -18,37 +24,29 @@ The panel refreshes every ten seconds. It displays up to thirty highest-usage se
 
 ## Install
 
-Install a local checkout into the Harness profiles directory:
+The plugin is a normal dsh plugin bundle, so it installs with the standard dsh plugin flow and shows up in the installed plugins list with its own enable toggle. It never needs an entry in `cordis.patch.yml`.
 
-```powershell
-npm install --prefix "$env:DSH_HOME\profiles" "C:\path\to\harness-ledger"
+### From the plugin manager
+
+Open the Plugins page, install from the repository address, then restart Harness.
+
+```
+https://github.com/yuyuanjingxuan/harness-ledger
 ```
 
-If `DSH_HOME` is not set, use the full path. For a default Windows installation:
+### From the command line
 
-```powershell
-npm install --prefix "$env:USERPROFILE\.dsh\profiles" "C:\path\to\harness-ledger"
+```
+dsh plugin --profile desktop add https://github.com/yuyuanjingxuan/harness-ledger
 ```
 
-Register it in `$DSH_HOME/profiles/<profile>/cordis.patch.yml`:
-
-```yaml
-- insert:
-    - id: ledger
-      name: harness-ledger
-```
-
-Restart Harness and refresh the browser.
+Replace `desktop` with your profile name. Restart Harness after the install finishes.
 
 ## Pricing
 
-Every provider discovered by Harness starts at ¥0 per million tokens, so the panel works without a pricing block. Click the `¥` button in the panel header to enter input and output prices. Choose either **By provider** or **By model**; only the selected mode is used for estimates. Model rates are keyed by both provider and model, so identical model names from different providers remain distinct. Both rate tables persist in the browser's local storage. In provider mode, local provider rates take precedence over profile-configured rates.
-
-Choose Compact (400×520), Standard (480×620), or Wide (600×760) from the panel header to resize it, or drag the lower-right corner for a custom size. Standard is the default. The selected size is saved in the browser.
+Every provider discovered by Harness starts at zero per million tokens, so the panel works without a pricing block. Click the `¥` button in the panel header to enter input and output prices. Choose either **By provider** or **By model**; only the selected mode is used for estimates. Model rates are keyed by both provider and model, so identical model names from different providers remain distinct. Both rate tables persist in the browser's local storage. In provider mode, local provider rates take precedence over profile-configured rates.
 
 The provider key must match the ID reported by Harness. Profile configuration remains available when rates should be shared across browsers or managed centrally:
-
-Raw profile configuration remains available as an alternative:
 
 ```yaml
 - id: ledger
@@ -61,11 +59,11 @@ Raw profile configuration remains available as an alternative:
 
 `inputPerM` and `outputPerM` are prices per million uncached input tokens and output tokens. Zero is valid and means free.
 
-## Local data
+## Data and cache
 
 The plugin reads session history through Harness services. Its cache contains folded session metadata and usage totals, not full message bodies. Cached totals are returned immediately while session history refreshes in the background.
 
-Set `HARNESS_LEDGER_CACHE` before starting Harness to use a different cache directory. The legacy `DSH_LEDGER_CACHE` name remains supported.
+The cache lives in the dsh user data area at `~/.dsh/storages/harness-ledger`, next to the other dsh storages, so it survives reinstalls and upgrades. Set `DSH_HOME` to use a different dsh root, or set `HARNESS_LEDGER_CACHE` before starting Harness to point at a dedicated cache directory. The legacy `DSH_LEDGER_CACHE` name remains supported.
 
 ## Development
 
